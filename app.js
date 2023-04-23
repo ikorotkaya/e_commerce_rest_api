@@ -23,6 +23,17 @@ app.get('/authors', async (req, res) => {
   })
 });
 
+app.get('/authors/:id', async (req, res) => {
+  await client.connect()
+  const userId = req.params.id;
+  // select * from authors => json
+  const result = await client.query(`SELECT * from author WHERE id = ${userId}`)
+  console.log(result)
+  await client.end()
+  
+  res.send(result.rows)
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
