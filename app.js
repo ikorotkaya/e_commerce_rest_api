@@ -27,9 +27,9 @@ const urlencodedParser = bodyParser.urlencoded({
   extended: false,
 })
 
+// Get all authors
 app.get('/authors', async (req, res) => {
   await client.connect()
-  // select * from authors => json
   const result = await client.query('SELECT * from author')
   console.log(result)
   await client.end()
@@ -39,6 +39,7 @@ app.get('/authors', async (req, res) => {
   })
 });
 
+// Get authors by id
 app.get('/authors/:id', async (req, res) => {
   await client.connect()
   const userId = req.params.id;
@@ -50,6 +51,7 @@ app.get('/authors/:id', async (req, res) => {
   res.send(result.rows)
 });
 
+// Get all genres
 app.get('/genres', async (req, res) => {
   await client.connect()
   const result = await client.query('SELECT * from genres')
@@ -61,6 +63,7 @@ app.get('/genres', async (req, res) => {
   })
 });
 
+// Get all books
 app.get('/books', async (req, res) => {
   await client.connect()
   const result = await client.query('SELECT * from books')
@@ -84,6 +87,24 @@ app.post('/customers', urlencodedParser, async (req, res) => {
 
   res.status(201).send('User added with ID: ' + JSON.stringify(updatedResult.rows))
 });
+
+// Update username 
+app.put('/customers/:id', urlencodedParser, async (req, res) => {
+  if (!req.body) return res.sendStatus(400)
+
+  await client.connect()
+  const { id } = req.params;
+  console.log(id)
+  const { username } = req.body
+
+  const result = await client.query(`UPDATE customers SET username = '${username}' WHERE id = '${id}'`)
+  const updatedResult = await client.query(`SELECT * from customers where id = '${id}'`)
+  await client.end()
+
+  res.status(201).send('Email updated' + JSON.stringify(updatedResult.rows))
+});
+
+
 
 // Create new order
 app.post('/orders', urlencodedParser, async (req, res) => {
