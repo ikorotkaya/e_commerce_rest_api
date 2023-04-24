@@ -81,7 +81,7 @@ app.post('/customers', urlencodedParser, async (req, res) => {
   await client.connect()
   const {id, username, password, email} = req.body
 
-  const result = await client.query(`INSERT INTO customers (id, username, password, email) VALUES ('${id}', '${username}', '${password}', '${email}')`)
+  await client.query(`INSERT INTO customers (id, username, password, email) VALUES ('${id}', '${username}', '${password}', '${email}')`)
   const updatedResult = await client.query('SELECT * from customers')
   await client.end()
 
@@ -97,14 +97,12 @@ app.put('/customers/:id', urlencodedParser, async (req, res) => {
   console.log(id)
   const { username } = req.body
 
-  const result = await client.query(`UPDATE customers SET username = '${username}' WHERE id = '${id}'`)
+  await client.query(`UPDATE customers SET username = '${username}' WHERE id = '${id}'`)
   const updatedResult = await client.query(`SELECT * from customers where id = '${id}'`)
   await client.end()
 
   res.status(201).send('Email updated' + JSON.stringify(updatedResult.rows))
 });
-
-
 
 // Create new order
 app.post('/orders', urlencodedParser, async (req, res) => {
@@ -112,14 +110,25 @@ app.post('/orders', urlencodedParser, async (req, res) => {
   await client.connect()
   const {id, date, customer_id, total_price} = req.body
 
-  const result = await client.query(`INSERT INTO orders (id, date, customer_id, total_price) VALUES ('${id}', '${date}', '${customer_id}', '${total_price}')`)
+  await client.query(`INSERT INTO orders (id, date, customer_id, total_price) VALUES ('${id}', '${date}', '${customer_id}', '${total_price}')`)
   const updatedResult = await client.query('SELECT * from orders')
   await client.end()
 
   res.status(201).send('Order added ' + JSON.stringify(updatedResult.rows))
 });
 
+// Delete order
+app.delete('/orders/:id', urlencodedParser, async (req, res) => {
+  if (!req.body) return res.sendStatus(400)
 
+  await client.connect()
+  const { id } = req.params;
+
+  await client.query(`DELETE FROM orders WHERE id = '${id}'`)
+  await client.end()
+
+  res.status(201).send('Order deleted')
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
