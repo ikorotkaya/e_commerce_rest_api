@@ -1,6 +1,6 @@
 const express = require('express');
 const booksRouter = express.Router();
-
+import { runQuery } from "./config/config.js";
 
 // Get all books
 booksRouter.get('/', async (req, res) => {
