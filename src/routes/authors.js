@@ -1,12 +1,10 @@
 const express = require('express');
 const authorsRouter = express.Router();
-
+const config = require('../config/config');
 
 // Get all authors
 authorsRouter.get('/', async (req, res) => {
-  await client.connect()
-  const result = await client.query('SELECT * from author')
-  await client.end()
+  const result = await config.runQuery('SELECT * from author')
   
   res.send({
     authors: result.rows
@@ -15,11 +13,8 @@ authorsRouter.get('/', async (req, res) => {
 
 // Get authors by id
 authorsRouter.get('/:id', async (req, res) => {
-  await client.connect()
   const userId = req.params.id;
-  // select * from authors => json
-  const result = await client.query(`SELECT * from authors WHERE id = ${userId}`)
-  await client.end()
+  const result = await config.runQuery(`SELECT * from authors WHERE id = ${userId}`)
   
   res.send(result.rows)
 });

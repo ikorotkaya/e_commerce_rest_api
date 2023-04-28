@@ -1,14 +1,14 @@
 require('dotenv').config();
 
-const session = require("express-session")
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET_KEY,
-    cookie: {maxAge: 172800000, secure: true, sameSite: 'none'},
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+// const session = require("express-session")
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET_KEY,
+//     cookie: {maxAge: 172800000, secure: true, sameSite: 'none'},
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// );
 
 const { Client } = require('pg')
 const client = new Client({
@@ -19,7 +19,7 @@ const client = new Client({
   port: process.env.PORT_CLIENT,
 })
 
-client.connect();
+// client.connect();
 
 const runQuery = async (query) => {
   await client.connect()
