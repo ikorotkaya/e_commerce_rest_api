@@ -1,10 +1,8 @@
 const express = require('express');
 const ordersRouter = express.Router();
 
-module.exports = ordersRouter;
-
 // Create new order
-ordersRouter.post('/orders', urlencodedParser, async (req, res) => {
+ordersRouter.post('/', async (req, res) => {
   if (!req.body) return res.sendStatus(400)
   await client.connect()
   const {id, date, customer_id, total_price} = req.body
@@ -17,7 +15,7 @@ ordersRouter.post('/orders', urlencodedParser, async (req, res) => {
 });
 
 // Delete order
-ordersRouter.delete('/orders/:id', urlencodedParser, async (req, res) => {
+ordersRouter.delete('/:id', async (req, res) => {
   if (!req.body) return res.sendStatus(400)
 
   await client.connect()
@@ -28,3 +26,5 @@ ordersRouter.delete('/orders/:id', urlencodedParser, async (req, res) => {
 
   res.status(201).send('Order deleted')
 });
+
+module.exports = ordersRouter;

@@ -1,10 +1,9 @@
 const express = require('express');
 const authorsRouter = express.Router();
 
-module.exports = authorsRouter;
 
 // Get all authors
-authorsRouter.get('/authors', async (req, res) => {
+authorsRouter.get('/', async (req, res) => {
   await client.connect()
   const result = await client.query('SELECT * from author')
   await client.end()
@@ -15,7 +14,7 @@ authorsRouter.get('/authors', async (req, res) => {
 });
 
 // Get authors by id
-authorsRouter.get('/authors/:id', async (req, res) => {
+authorsRouter.get('/:id', async (req, res) => {
   await client.connect()
   const userId = req.params.id;
   // select * from authors => json
@@ -24,3 +23,5 @@ authorsRouter.get('/authors/:id', async (req, res) => {
   
   res.send(result.rows)
 });
+
+module.exports = authorsRouter;

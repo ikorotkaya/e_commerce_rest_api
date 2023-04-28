@@ -2,11 +2,11 @@ const express = require('express');
 const apiRouter = express.Router();
 
 const customersRouter = require('./customers');
-const authorsRouter = require('./routes/authors');
-const booksRouter = require('./routes/books');
-const genresRouter = require('./routes/genres');
-const orderItemsRouter = require('./routes/order_items');
-const ordersRouter = require('./routes/orders');
+const authorsRouter = require('./authors');
+const booksRouter = require('./books');
+const genresRouter = require('./genres');
+const orderItemsRouter = require('./orderItems');
+const ordersRouter = require('./orders');
 
 apiRouter.use('/customers', customersRouter);
 apiRouter.use('/authors', authorsRouter);

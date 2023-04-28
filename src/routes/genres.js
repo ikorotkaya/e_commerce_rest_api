@@ -1,10 +1,9 @@
 const express = require('express');
 const genresRouter = express.Router();
 
-module.exports = genresRouter;
 
 // Get all genres
-genresRouter.get('/genres', async (req, res) => {
+genresRouter.get('/', async (req, res) => {
   await client.connect()
   const result = await client.query('SELECT * from genres')
   await client.end()
@@ -13,3 +12,5 @@ genresRouter.get('/genres', async (req, res) => {
     genres: result.rows
   })
 });
+
+module.exports = genresRouter;
