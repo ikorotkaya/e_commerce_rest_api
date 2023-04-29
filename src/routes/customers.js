@@ -14,7 +14,7 @@ customersRouter.get('/', async (req, res) => {
       customers: result.rows
     })
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err.message)
   }
 });
 
@@ -25,7 +25,7 @@ customersRouter.post('/', async (req, res) => {
     await config.runQuery(`INSERT INTO customers (id, username, password, email) VALUES ('${id}', '${username}', '${password}', '${email}')`)
     res.status(201).send('User added')
   } catch (err) {
-    res.status(400).json(err)
+    res.status(400).json(err.message)
   }
 });
 
@@ -37,7 +37,7 @@ customersRouter.put('/:id', async (req, res) => {
     await config.runQuery(`UPDATE customers SET username = '${username}' WHERE id = '${id}'`)
     res.status(201).send('Email updated')
   } catch (err) {
-    res.status(400).json(err)
+    res.status(400).json(err.message)
   }
 });
 

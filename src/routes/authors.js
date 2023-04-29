@@ -14,7 +14,7 @@ authorsRouter.get('/', async (req, res) => {
       authors: result.rows
     })
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err.message)
   }
 });
 
@@ -22,10 +22,10 @@ authorsRouter.get('/', async (req, res) => {
 authorsRouter.get('/:id', async (req, res) => {
   try {
     const userId = req.params.id;
-    const result = await config.runQuery(`SELECT * from authors WHERE id = ${userId}`)
+    const result = await config.runQuery(`SELECT * from authors WHERE id = '${userId}'`)
     res.send(result.rows)
   } catch (err) {
-    res.status(400).json(err)
+    res.status(400).json(err.message)
   }
 });
 
@@ -33,10 +33,10 @@ authorsRouter.get('/:id', async (req, res) => {
 authorsRouter.post('/', async (req, res) => {
   try {
     const { id, first_name, last_name } = req.body
-    await config.runQuery(`INSERT INTO authors (id, first_name, last_name) VALUES ('${id}', ${first_name}', '${last_name}')`)
+    await config.runQuery(`INSERT INTO authors (id, first_name, last_name) VALUES ('${id}', '${first_name}', '${last_name}')`);
     res.status(201).send('Author added')
   } catch (err) {
-    res.status(400).json(err)
+    res.status(400).json(err.message)
   }
 });
 
