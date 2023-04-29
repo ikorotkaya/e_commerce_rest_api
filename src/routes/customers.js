@@ -32,10 +32,13 @@ customersRouter.get('/:id', async (req, res) => {
 // Create new customer
 customersRouter.post('/', async (req, res) => {
   try {
-    const { id, username, email, password } = req.body
-    await config.runQuery(`INSERT INTO customers (id, username, password, email) VALUES ('${id}', '${username}', '${password}', '${email}')`)
+    const { username, email, password } = req.body
+    await config.runQuery(`INSERT INTO customers (username, password, email) VALUES ('${username}', '${password}', '${email}')`)
+    await config.runQuery(`SELECT COUNT(*) FROM customers`);
     res.status(201).send('User added')
   } catch (err) {
+    console.log(err)
+    
     res.status(400).json(err.message)
   }
 });

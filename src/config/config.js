@@ -10,8 +10,8 @@ require('dotenv').config();
 //   })
 // );
 
-const { Client } = require('pg')
-const client = new Client({
+const { Pool } = require('pg')
+const pool = new Pool({
   user: process.env.CLIENT_USERNAME,
   host: process.env.HOST,
   database: process.env.DATABASE_NAME,
@@ -19,13 +19,8 @@ const client = new Client({
   port: process.env.PORT_CLIENT,
 })
 
-// client.connect();
-
 const runQuery = async (query) => {
-  await client.connect()
-  const result = await client.query(query);
-  await client.end()
-  return result;
+  return await pool.query(query);
 }
 
 module.exports = {
