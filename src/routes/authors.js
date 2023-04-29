@@ -22,7 +22,7 @@ authorsRouter.get('/', async (req, res) => {
 authorsRouter.get('/:id', async (req, res) => {
   try {
     const userId = req.params.id;
-    const result = await config.runQuery(`SELECT * from authors WHERE id = '${userId}'`)
+    const result = await config.runQuery(`SELECT * from authors WHERE id = ${userId}`)
     res.send(result.rows)
   } catch (err) {
     res.status(400).json(err.message)
